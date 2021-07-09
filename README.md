@@ -2,7 +2,7 @@
 
 ![](./doc/social-media-preview.jpg)
 
-Command-line arguments with malli.
+Data manipulation playground for fun and profit.
 
 [![Clojars badge](https://img.shields.io/clojars/v/com.github.piotr-yuxuan/tsv-processing.svg)](https://clojars.org/com.github.piotr-yuxuan/tsv-processing)
 [![cljdoc badge](https://cljdoc.org/badge/com.github.piotr-yuxuan/tsv-processing)](https://cljdoc.org/d/com.github.piotr-yuxuan/tsv-processing/CURRENT)
@@ -11,8 +11,17 @@ Command-line arguments with malli.
 
 # What it offers
 
-`jq` is probably enough to do some tsv file parsing, but this project tries to be more scalable – at the expense of
-simplicity.
+`jq` is probably enough to do some tsv file parsing, but this project
+tries to be more scalable – at the expense of simplicity.
+
+Some tsv files are processed and the output itself also is written on
+disk as a tsv file. Data go throughout different steps:
+
+- Acquisition
+- Ingestion (filtering, coercion, anomaly detection)
+- Enrichment
+- Projection
+- Storage
 
 # Maturity and evolution
 
