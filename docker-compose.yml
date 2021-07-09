@@ -1,0 +1,61 @@
+version: '3.4'
+services:
+  zookeeper:
+    image: zookeeper:latest
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      # In your host file, add:
+      # ```
+      # 127.0.0.1 kubernetes.docker.internal
+      # ```
+      KAFKA_ADVERTISED_HOST_NAME: 'kubernetes.docker.internal'
+      # <env>.<namespace>.<entity>[.<ver>][.<format>][.compacted]
+      KAFKA_CREATE_TOPICS: 'local.tsv-processing.tsv-line.edn:3:1,local.tsv-processing.output.edn:3:1'
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
+      SCHEMA_REGISTRY_SCHEMA_REGISTRY_ZK_NAMESPACE: 'schema-registry'
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+    volumes:
+      - ./dev-resources/monitoring/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    ports:
+      - 9091:9091
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+      - pushgateway
+    volumes:
+      - ./dev-resources/monitoring/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+    ports:
+      - 3000:3000
