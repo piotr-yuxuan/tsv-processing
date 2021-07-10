@@ -72,7 +72,7 @@ services:
     image: grafana/grafana:latest
     environment:
       GF_SECURITY_ADMIN_USER: 'admin'
-      GF_SECURITY_ADMIN_PASSWORD: 'password'
+      GF_SECURITY_ADMIN_PASSWORD: 'admin'
       GF_USERS_ALLOW_SIGN_UP: 'false'
     depends_on:
       - prometheus
