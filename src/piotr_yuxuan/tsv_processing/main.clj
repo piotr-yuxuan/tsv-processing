@@ -8,7 +8,8 @@
             [malli.transform :as mt]
             [piotr-yuxuan.closeable-map :as closeable-map :refer [close-with with-tag closeable* closeable-map*]]
             [piotr-yuxuan.malli-cli :as malli-cli]
-            [malli.generator :as mg]))
+            [clojure.data.csv :as csv])
+  (:import (java.io StringReader)))
 
 (defn deep-merge
   "Like merge, but merges maps recursively. It merges the maps from left
@@ -25,11 +26,7 @@
 (defn topology
   [streams-builder input-topic output-topic]
   (-> (j/kstream streams-builder input-topic)
-      (j/map (fn mapper [[k v]]
-               (u/trace ::mapper
-                 [:k (pr-str k)
-                  :v (pr-str v)]
-                 ["✨" (mg/generate string?)])))
+      ;; Do something here
       (j/to output-topic)))
 
 (defn kafka-streams
@@ -95,12 +92,12 @@
               {:type :prometheus
                :push-gateway {:job app-name
                               :endpoint "http://localhost:9091"}}
-              #_{:type :console
-                 :pretty? true
-                 :transform (fn [events]
-                              (remove (comp #{:mulog/jvm-metrics-sampled}
-                                            :mulog/event-name)
-                                      events))}]}})
+              {:type :console
+               :pretty? true
+               :transform (fn [events]
+                            (remove (comp #{:mulog/jvm-metrics-sampled}
+                                          :mulog/event-name)
+                                    events))}]}})
 
 (def Config
   (m/schema
