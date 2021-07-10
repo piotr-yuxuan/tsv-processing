@@ -45,6 +45,7 @@ services:
       - kafka
     ports:
       - 8081:8081
+      - 1236:1236
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
@@ -80,5 +81,6 @@ services:
       - ./dev-resources/monitoring/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
       - ./dev-resources/monitoring/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
       - ./dev-resources/monitoring/Kafka_Lag_Exporter_Dashboard.json:/etc/dashboards/Kafka_Lag_Exporter_Dashboard.json:rw
+      - ./dev-resources/monitoring/confluent-open-source-grafana-dashboard.json:/etc/dashboards/confluent-open-source-grafana-dashboard.json:rw
     ports:
       - 3000:3000
