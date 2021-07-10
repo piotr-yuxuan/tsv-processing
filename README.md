@@ -70,7 +70,9 @@ In a REPL, start, stop, or restart the streams:
 
 Due to the current way metrics are gathered, it is not possible to
 launch more than one instance of the app locally. A JMX exporter is
-used, so only one instance can expose its metrics on port `7852`.
+used, so only one instance can expose its metrics on port `7852`. It
+shouldn't be too difficult to use the Push Gateway so that any
+instance could push its metrics to Prometheus.
 
 Send records to topic from the command line:
 
