@@ -37,6 +37,7 @@
                  ;; Development tools
                  [ns-tracker "0.4.0"]]
   :java-agents [[com.github.jbellis/jamm "0.4.0"]]
+  :jvm-opts ["-javaagent:./dev-resources/jmx-monitoring-stacks/shared-assets/jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar=7852:resources/jmx-exporter.yml"]
   :main piotr-yuxuan.tsv-processing.main
   :profiles {:github {:github/topics []}
              :provided {:dependencies []}
