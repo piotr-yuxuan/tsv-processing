@@ -46,12 +46,14 @@ Start Docker environment containing local services:
 
 ``` zsh
 docker compose up
+# or, alternatively:
+docker compose up --force-recreate --renew-anon-volumes
 ```
 
 Now on your machine different services are available:
 
 - Grafana: http://localhost:3000
-- Push Gateway: http://localhost:9091
+- Prometheus: http://localhost:9090
 - Kafka broker: http://localhost:9092
 - Schema registry: http://localhost:8081
 
