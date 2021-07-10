@@ -18,6 +18,11 @@ services:
       # 127.0.0.1 kubernetes.docker.internal
       # ```
       KAFKA_ADVERTISED_HOST_NAME: 'kubernetes.docker.internal'
+      #KAFKA_ADVERTISED_HOST_NAME: ${HOST_NAME}
+      # Alternatively, comment the upper line and use an environment variable.
+      # ```
+      # echo HOST_NAME=$(ipconfig getifaddr en0) > .env
+      # ```
       # <env>.<namespace>.<entity>[.<ver>][.<format>][.compacted]
       KAFKA_CREATE_TOPICS: 'local.tsv-processing.tsv-line.edn:3:1,local.tsv-processing.output.edn:3:1'
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
