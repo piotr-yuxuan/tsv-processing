@@ -3,8 +3,10 @@
   can't get IntelliJ to properly indent it."
   (:require [piotr-yuxuan.tsv-processing.main :as main]
             [malli.generator :as mg]
+            [clojure.data.csv :as csv]
             [jackdaw.client :as jc])
-  (:import (java.lang AutoCloseable)))
+  (:import (java.lang AutoCloseable)
+           (java.io StringWriter)))
 
 (defonce app
   (atom nil))
@@ -33,9 +35,17 @@
         topic-config (:input-topic main/default-config)]
     (with-open [client (jc/producer producer-config topic-config)]
       (dotimes [_ 10e3]
-        (Thread/sleep 100)
+        (Thread/sleep 1000) ; Trying to be nice with my machine.
         (let [k (mg/generate string?)
-              v (mg/generate keyword?)]
+              writer (doto (StringWriter.)
+                       (csv/write-csv
+                         [(mg/generate [:vector
+                                        [:or
+                                         string?
+                                         ;; So that we have some winners.
+                                         [:enum "a" "b" "c" "d" "e" "f"]]])]
+                         :separator \tab))
+              v (str writer)]
           @(jc/produce! client topic-config k v))))))
 
 (defonce producer-thread (atom nil))
