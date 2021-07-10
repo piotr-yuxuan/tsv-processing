@@ -11,11 +11,11 @@ Data manipulation playground for fun and profit.
 
 # What it offers
 
-`jq` is probably enough to do some tsv file parsing, but this project tries to be more scalable – at the expense of
-simplicity.
+`jq` is probably enough to do some tsv file parsing, but this project
+tries to be more scalable – at the expense of simplicity.
 
-Some tsv files are processed and the output itself also is written on disk as a tsv file. Data go throughout different
-steps:
+Some tsv files are processed and the output itself also is written on
+disk as a tsv file. Data go throughout different steps:
 
 - Acquisition
 - Ingestion (filtering, coercion, anomaly detection)
@@ -26,6 +26,14 @@ steps:
 # Maturity and evolution
 
 # Getting started
+
+When you clone this repository, use `--recurse-submodules` to clone
+the submodule in `./dev-resources/jmx-monitoring-stacks`. Otherwise
+you may use:
+
+``` zsh
+git submodule update --init --recursive
+```
 
 Clean local Docker environments:
 
