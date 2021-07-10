@@ -127,6 +127,13 @@ tabulation:
 
 In the code above `written-string` is identical to
 `"a\t\"b\taba\"\tc\n"`.
+
+To open a shell in ksqlDB:
+
+``` zsh
+docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
+```
+
 # References
 
 - https://ksqldb.io/quickstart.html#quickstart-content
