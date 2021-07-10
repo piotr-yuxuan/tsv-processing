@@ -52,6 +52,7 @@ services:
       - 8081:8081
       - 1236:1236
     environment:
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 0 # No thank you
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
       SCHEMA_REGISTRY_SCHEMA_REGISTRY_ZK_NAMESPACE: 'schema-registry'
