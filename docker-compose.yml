@@ -3,14 +3,15 @@ services:
   zookeeper:
     image: zookeeper:latest
     ports:
-      - "2181:2181"
+      - 2181:2181
 
   kafka:
     image: wurstmeister/kafka:latest
     depends_on:
       - zookeeper
     ports:
-      - "9092:9092"
+      - 9092:9092
+      - 1235:1235
     environment:
       # In your host file, add:
       # ```
@@ -21,8 +22,21 @@ services:
       KAFKA_CREATE_TOPICS: 'local.tsv-processing.tsv-line.edn:3:1,local.tsv-processing.output.edn:3:1'
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      EXTRA_ARGS: "-javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.12.0.jar=1235:/opt/prometheus/kafka_broker.yml"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./dev-resources/jmx-monitoring-stacks/shared-assets/jmx-exporter:/opt/prometheus:rx
+
+  kafka-lag-exporter:
+    image: lightbend/kafka-lag-exporter:0.5.5
+    ports:
+      - 8000:8000
+    depends_on:
+      - kafka
+    environment:
+      CONFIG_FILE: /opt/docker/conf/application.conf
+    volumes:
+      - ./dev-resources/kafka-lag-exporter:/opt/docker/conf
 
   schema-registry:
     image: confluentinc/cp-schema-registry:latest
@@ -30,11 +44,14 @@ services:
       - zookeeper
       - kafka
     ports:
-      - "8081:8081"
+      - 8081:8081
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
       SCHEMA_REGISTRY_SCHEMA_REGISTRY_ZK_NAMESPACE: 'schema-registry'
+      EXTRA_ARGS: -javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.12.0.jar=1236:/opt/prometheus/confluent_schemaregistry.yml
+    volumes:
+      - ./dev-resources/jmx-monitoring-stacks/shared-assets/jmx-exporter:/opt/prometheus:rx
 
   prometheus:
     image: prom/prometheus:latest
@@ -52,10 +69,16 @@ services:
 
   grafana:
     image: grafana/grafana:latest
+    environment:
+      GF_SECURITY_ADMIN_USER: 'admin'
+      GF_SECURITY_ADMIN_PASSWORD: 'password'
+      GF_USERS_ALLOW_SIGN_UP: 'false'
     depends_on:
       - prometheus
       - pushgateway
     volumes:
       - ./dev-resources/monitoring/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./dev-resources/monitoring/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ./dev-resources/monitoring/Kafka_Lag_Exporter_Dashboard.json:/etc/dashboards/Kafka_Lag_Exporter_Dashboard.json:rw
     ports:
       - 3000:3000
