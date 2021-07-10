@@ -140,3 +140,4 @@ docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
 - https://github.com/FundingCircle/jackdaw
 - https://kafka.apache.org/quickstart
 - Learning Clojure: practicalli.github.io/
+- https://docs.confluent.io/platform/current/streams/developer-guide/dsl-api.html
