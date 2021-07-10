@@ -11,11 +11,11 @@ Data manipulation playground for fun and profit.
 
 # What it offers
 
-`jq` is probably enough to do some tsv file parsing, but this project
-tries to be more scalable – at the expense of simplicity.
+`jq` is probably enough to do some tsv file parsing, but this project tries to be more scalable – at the expense of
+simplicity.
 
-Some tsv files are processed and the output itself also is written on
-disk as a tsv file. Data go throughout different steps:
+Some tsv files are processed and the output itself also is written on disk as a tsv file. Data go throughout different
+steps:
 
 - Acquisition
 - Ingestion (filtering, coercion, anomaly detection)
@@ -39,6 +39,15 @@ Start Docker environment containing local services:
 ``` zsh
 docker compose up
 ```
+
+Now on your machine different services are available:
+
+- Grafana: http://localhost:3000
+- Push Gateway: http://localhost:9091
+- Kafka broker: http://localhost:9092
+- Schema registry: http://localhost:8081
+
+See [docker-compose.yml](./docker-compose.yml) for all services.
 
 In a REPL, start, stop, or restart the streams:
 
