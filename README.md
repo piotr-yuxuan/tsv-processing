@@ -68,6 +68,10 @@ In a REPL, start, stop, or restart the streams:
     (user-start))
 ```
 
+Due to the current way metrics are gathered, it is not possible to
+launch more than one instance of the app locally. A JMX exporter is
+used, so only one instance can expose its metrics on port `7852`.
+
 Send records to topic from the command line:
 
 ``` zsh
