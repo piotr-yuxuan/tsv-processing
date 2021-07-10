@@ -1,12 +1,12 @@
 version: '3.4'
 services:
   zookeeper:
-    image: zookeeper:latest
+    image: zookeeper:3.7.0
     ports:
       - 2181:2181
 
   kafka:
-    image: wurstmeister/kafka:latest
+    image: wurstmeister/kafka:2.12-2.5.0
     depends_on:
       - zookeeper
     ports:
@@ -44,7 +44,7 @@ services:
       - ./dev-resources/kafka-lag-exporter:/opt/docker/conf
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:latest
+    image: confluentinc/cp-schema-registry:5.5.5
     depends_on:
       - zookeeper
       - kafka
