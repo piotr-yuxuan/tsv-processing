@@ -1,12 +1,14 @@
 (ns piotr-yuxuan.tsv-processing.main
-  (:require [com.brunobonacci.mulog :as u]
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]
+            [com.brunobonacci.mulog :as u]
+            [jackdaw.serdes.edn :as jse]
             [jackdaw.streams :as j]
             [malli.core :as m]
             [malli.transform :as mt]
             [piotr-yuxuan.closeable-map :as closeable-map :refer [close-with with-tag closeable* closeable-map*]]
             [piotr-yuxuan.malli-cli :as malli-cli]
-            [clojure.string :as str]
-            [clojure.java.io :as io]))
+            [malli.generator :as mg]))
 
 (defn deep-merge
   "Like merge, but merges maps recursively. It merges the maps from left
@@ -27,7 +29,7 @@
                (u/trace ::mapper
                  [:k (pr-str k)
                   :v (pr-str v)]
-                 [k "✨"])))
+                 ["✨" (mg/generate string?)])))
       (j/to output-topic)))
 
 (defn kafka-streams
@@ -73,13 +75,17 @@
                     "default.key.serde" "jackdaw.serdes.EdnSerde"
                     "default.value.serde" "jackdaw.serdes.EdnSerde"
                     "cache.max.bytes.buffering" 0
-                    "auto.offset.reset" "latest"}
+                    "auto.offset.reset" "earliest"}
    :input-topic {:topic-name "local.tsv-processing.tsv-line.edn"
                  :partition-count 3
-                 :replication-factor 1}
+                 :replication-factor 1
+                 :key-serde (jse/serde)
+                 :value-serde (jse/serde)}
    :output-topic {:topic-name "local.tsv-processing.output.edn"
                   :partition-count 3
-                  :replication-factor 1}
+                  :replication-factor 1
+                  :key-serde (jse/serde)
+                  :value-serde (jse/serde)}
    :loggers {:type :multi
              :publishers
              [#_{:type :simple-file
@@ -89,12 +95,12 @@
               {:type :prometheus
                :push-gateway {:job app-name
                               :endpoint "http://localhost:9091"}}
-              {:type :console
-               :pretty? true
-               :transform (fn [events]
-                            (remove (comp #{:mulog/jvm-metrics-sampled}
-                                          :mulog/event-name)
-                                    events))}]}})
+              #_{:type :console
+                 :pretty? true
+                 :transform (fn [events]
+                              (remove (comp #{:mulog/jvm-metrics-sampled}
+                                            :mulog/event-name)
+                                      events))}]}})
 
 (def Config
   (m/schema
@@ -124,4 +130,3 @@
   (let [config (load-config args)]
     (assert (m/validate Config config))
     (start config)))
-
