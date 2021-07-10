@@ -25,6 +25,12 @@ disk as a tsv file. Data go throughout different steps:
 
 # Maturity and evolution
 
+It's still very young, and only aimed at being a playground. It will
+probably only run locally and will never see the light of life in
+production.
+
+![](./doc/Screenshot 2021-07-10 at 15.20.00.png)
+
 # Getting started
 
 When you clone this repository, use `--recurse-submodules` to clone
