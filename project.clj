@@ -19,23 +19,30 @@
                  [org.clojure/data.csv "1.0.0"] ; Reader/writer of delimiter-separated data file
                  [piotr-yuxuan/closeable-map "0.35.0"] ; Bare-bone state management
 
-                 ;; Ancillary tools
-                 [camel-snake-kebab "0.4.2"] ; Case and type manipulation
-
                  ;; Performance and observability tools
                  [com.brunobonacci/mulog "0.8.0"] ; Versatile logging library
+                 [com.brunobonacci/mulog-jvm-metrics "0.8.0"] ; JVM sampler for µ/log
+                 [com.brunobonacci/mulog-filesystem-metrics "0.8.0"] ; Files system sampler for µ/log
+                 [com.brunobonacci/mulog-prometheus "0.8.0"] ; Prometheus exporter for µ/log
                  [com.clojure-goes-fast/clj-async-profiler "0.5.0"] ; Profiler
                  [com.github.jbellis/jamm "0.4.0"] ; JVM memory meter, retrieved from piotr-yuxuan/jamm
                  [com.widdindustries/tools.jvm "0.1.2"] ; JVM runtime data
                  [criterium "0.4.6"] ; Benchmarking library
                  [jmh-clojure "0.4.0"] ; JMH benchmarking for Clojure
-                 ]
+                 [clj-commons/iapetos "0.1.11"] ; Metrics exporter to Prometheus
+
+                 ;; Ancillary tools
+                 [camel-snake-kebab "0.4.2"] ; Case and type manipulation
+
+                 ;; Development tools
+                 [ns-tracker "0.4.0"]]
   :java-agents [[com.github.jbellis/jamm "0.4.0"]]
   :main piotr-yuxuan.tsv-processing.main
   :profiles {:github {:github/topics []}
              :provided {:dependencies []}
              :dev {:global-vars {*warn-on-reflection* true}
-                   :dependencies []}
+                   :dependencies []
+                   :repl-options {:init-ns piotr-yuxuan.tsv-processing.user}}
              :uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.disable-locals-clearing=false"
                                   "-Dclojure.compiler.direct-linking=true"]}
