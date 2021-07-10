@@ -25,7 +25,7 @@ services:
       # ```
       # <env>.<namespace>.<entity>[.<ver>][.<format>][.compacted]
       KAFKA_CREATE_TOPICS: 'local.tsv-processing.tsv-line.edn:3:1,local.tsv-processing.output.edn:3:1'
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true' # Non-production compatible, but we stay local so we don't care.
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       EXTRA_ARGS: "-javaagent:/opt/prometheus/jmx_prometheus_javaagent-0.12.0.jar=1235:/opt/prometheus/kafka_broker.yml"
     volumes:
