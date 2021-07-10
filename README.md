@@ -112,6 +112,21 @@ kafka-console-consumer \
   --from-beginning
 ```
 
+Here is a safer way read tsv data, even if data inside contains `\tab`
+tabulation:
+
+``` clojure
+(require '[clojure.data.csv :as csv])
+
+(let [writer (StringWriter.)]
+  (csv/write-csv writer [["a" "b\taba" "c"]] :separator \tab)
+  (let [written-string (str writer)
+        reader (StringReader. written-string)]
+    (csv/read-csv reader :separator \tab)))
+```
+
+In the code above `written-string` is identical to
+`"a\t\"b\taba\"\tc\n"`.
 # References
 
 - https://ksqldb.io/quickstart.html#quickstart-content
