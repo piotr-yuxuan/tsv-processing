@@ -90,3 +90,28 @@ services:
       - ./dev-resources/monitoring/confluent-open-source-grafana-dashboard.json:/etc/dashboards/confluent-open-source-grafana-dashboard.json:rw
     ports:
       - 3000:3000
+
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:0.18.0
+    hostname: ksqldb-server
+    depends_on:
+      - kafka
+    ports:
+      - "8088:8088"
+    environment:
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 0 # No thank you
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_BOOTSTRAP_SERVERS: kafka:9092
+      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true" # Non-production friendly, but we stay local so we don't care.
+      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true" # Non-production friendly, but we stay local so we don't care.
+
+  ksqldb-cli:
+    image: confluentinc/ksqldb-cli:0.18.0
+    container_name: ksqldb-cli
+    depends_on:
+      - kafka
+      - ksqldb-server
+    entrypoint: /bin/sh
+    environment:
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 0 # No thank you
+    tty: true
