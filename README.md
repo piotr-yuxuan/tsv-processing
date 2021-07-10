@@ -111,3 +111,10 @@ kafka-console-consumer \
   --property print.key=true \
   --from-beginning
 ```
+
+# References
+
+- https://ksqldb.io/quickstart.html#quickstart-content
+- https://github.com/FundingCircle/jackdaw
+- https://kafka.apache.org/quickstart
+- Learning Clojure: practicalli.github.io/
