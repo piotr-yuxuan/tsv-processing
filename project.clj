@@ -43,7 +43,8 @@
              :provided {:dependencies []}
              :dev {:global-vars {*warn-on-reflection* true}
                    :dependencies []
-                   :repl-options {:init-ns piotr-yuxuan.tsv-processing.user}}
+                   :source-paths ["src" "dev"]
+                   :repl-options {:init-ns user}}
              :uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.disable-locals-clearing=false"
                                   "-Dclojure.compiler.direct-linking=true"]}

@@ -1,6 +1,7 @@
-(ns piotr-yuxuan.tsv-processing.user
+(ns dev.user
   "This file should better be `dev/user.clj` but for whatever reason I
-  can't get IntelliJ to properly indent it."
+  can't get IntelliJ to properly indent it. As a result, putting it in
+  `dev/dev/user`. My guess is some regression in IntelliJ 2021.1."
   (:require [piotr-yuxuan.tsv-processing.main :as main]
             [malli.generator :as mg]
             [clojure.data.csv :as csv]
