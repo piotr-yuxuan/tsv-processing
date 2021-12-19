@@ -1,14 +1,14 @@
 (ns piotr-yuxuan.tsv-processing.main
-  (:require [clojure.java.io :as io]
+  (:require [piotr-yuxuan.closeable-map :as closeable-map :refer [close-with with-tag closeable* closeable-map*]]
+            [piotr-yuxuan.malli-cli :as malli-cli]
+            [clojure.data.csv :as csv]
+            [clojure.java.io :as io]
             [clojure.string :as str]
             [com.brunobonacci.mulog :as u]
             [jackdaw.serdes.edn :as jse]
             [jackdaw.streams :as j]
             [malli.core :as m]
-            [malli.transform :as mt]
-            [piotr-yuxuan.closeable-map :as closeable-map :refer [close-with with-tag closeable* closeable-map*]]
-            [piotr-yuxuan.malli-cli :as malli-cli]
-            [clojure.data.csv :as csv])
+            [malli.transform :as mt])
   (:import (java.io StringReader)))
 
 (defn deep-merge

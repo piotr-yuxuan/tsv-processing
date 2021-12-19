@@ -1,10 +1,10 @@
 (ns piotr-yuxuan.tsv-processing.wip
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [clojure.data :as data]
             [clojure.math.combinatorics :as c]
             [clojure.set :as set]
-            [clojure.data :as data]
-            [malli.generator :as mg]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.test :refer [deftest testing is]]
+            [malli.generator :as mg]))
 
 (defn -main
   [])
