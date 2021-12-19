@@ -31,13 +31,12 @@
                  [jmh-clojure "0.4.0"] ; JMH benchmarking for Clojure
                  [clj-commons/iapetos "0.1.11"] ; Metrics exporter to Prometheus
 
+                 [org.clojure/math.combinatorics "0.1.6"]
                  ;; Ancillary tools
                  [camel-snake-kebab "0.4.2"] ; Case and type manipulation
 
                  ;; Development tools
                  [ns-tracker "0.4.0"]]
-  :java-agents [[com.github.jbellis/jamm "0.4.0"]]
-  :jvm-opts ["-javaagent:./dev-resources/jmx-monitoring-stacks/shared-assets/jmx-exporter/jmx_prometheus_javaagent-0.12.0.jar=7852:resources/jmx-exporter.yml"]
   :main piotr-yuxuan.tsv-processing.main
   :profiles {:github {:github/topics []}
              :provided {:dependencies []}
@@ -46,8 +45,7 @@
                    :source-paths ["src" "dev"]
                    :repl-options {:init-ns user}}
              :uberjar {:aot :all
-                       :jvm-opts ["-Dclojure.compiler.disable-locals-clearing=false"
-                                  "-Dclojure.compiler.direct-linking=true"]}
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
              :kaocha [:test {:dependencies [[lambdaisland/kaocha "1.0-612"]]}]}
   :repositories [["jamm" {:url "https://maven.pkg.github.com/piotr-yuxuan/jamm"
                           :username :env/GITHUB_ACTOR
