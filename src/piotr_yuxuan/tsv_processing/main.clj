@@ -25,9 +25,7 @@
 
 (defn topology
   [streams-builder input-topic output-topic]
-  (-> (j/kstream streams-builder input-topic)
-      ;; Do something here
-      (j/to output-topic)))
+  (j/to (j/kstream streams-builder input-topic) output-topic))
 
 (defn kafka-streams
   [{:keys [streams-config input-topic output-topic]}]
