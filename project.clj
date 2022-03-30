@@ -38,7 +38,8 @@
                  ;; Development tools
                  [ns-tracker "0.4.0"]]
   :main piotr-yuxuan.tsv-processing.main
-  :profiles {:github {:github/topics []}
+  :profiles {:github {:github/topics []
+                      :github/private? false}
              :provided {:dependencies []}
              :dev {:global-vars {*warn-on-reflection* true}
                    :dependencies []
