@@ -4,6 +4,7 @@ Checking dependencies for stdin...
 | dependency                       | status                                                         |
 +----------------------------------+----------------------------------------------------------------+
 | avro-1.9.2.jar                   | CVE-2021-43045                                                 |
+| clj-async-profiler-0.5.0.jar     | CVE-2021-43138                                                 |
 | commons-compress-1.19.jar        | CVE-2021-36090, CVE-2021-35515, CVE-2021-35516, CVE-2021-35517 |
 | connect-api-2.8.0.jar            | CVE-2021-38153                                                 |
 | jackson-databind-2.10.5.1.jar    | CVE-2020-36518                                                 |
@@ -12,7 +13,7 @@ Checking dependencies for stdin...
 | netty-transport-4.1.63.Final.jar | CVE-2021-37137, CVE-2021-37136, CVE-2021-43797                 |
 +----------------------------------+----------------------------------------------------------------+
 
-12 vulnerabilities detected. Severity: MEDIUM
+13 vulnerabilities detected. Severity: MEDIUM
 Detailed reports saved in: /home/runner/work/tsv-processing/tsv-processing/target/nvd
 HTML report : /home/runner/work/tsv-processing/tsv-processing/target/nvd/dependency-check-report.html
 
