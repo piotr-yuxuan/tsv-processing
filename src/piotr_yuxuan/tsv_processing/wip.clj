@@ -50,11 +50,12 @@
         distinct
         count)))
 
-;; Response 1 & 2:
-(number-of-houses-visited default-position direction)
-(number-of-houses-visited 1 [0 0] "") ; Starting position is included
-(number-of-houses-visited 1 [0 0] "^^vv<><>")
-(number-of-houses-visited 2 [0 0] "^<v>")
+(comment
+  ;; Response 1 & 2:
+  (number-of-houses-visited default-position direction)
+  (number-of-houses-visited 1 [0 0] "") ; Starting position is included
+  (number-of-houses-visited 1 [0 0] "^^vv<><>")
+  (number-of-houses-visited 2 [0 0] "^<v>"))
 
 (defn number-of-houses-visited-2
   [rider-ids->init-position direction]
@@ -69,12 +70,13 @@
        distinct
        count))
 
-(number-of-houses-visited 2 [0 0] "^^vv<><>")
-(= (number-of-houses-visited-2
-     {0 [0 100]
-      1 [0 0]}
-     "^^vv<><>")
-   (* 2 (number-of-houses-visited 1 [0 0] "^^vv<><>")))
+(comment
+  (number-of-houses-visited 2 [0 0] "^^vv<><>")
+  (= (number-of-houses-visited-2
+       {0 [0 100]
+        1 [0 0]}
+       "^^vv<><>")
+     (* 2 (number-of-houses-visited 1 [0 0] "^^vv<><>"))))
 
 ;; We first only want an answer, whatever the cost.
 
@@ -95,13 +97,14 @@
             q))
         queries))
 
-(invalid-averages 1 [#{1 2} #{1 2 4 6}]
-                  ;; averages:
-                  [#{1 2 4}])
+(comment
+  (invalid-averages 1 [#{1 2} #{1 2 4 6}]
+                    ;; averages:
+                    [#{1 2 4}])
 
-(invalid-averages 2 [#{1 2} #{1 2 4 6}]
-                  ;; averages:
-                  [#{1 4}])
+  (invalid-averages 2 [#{1 2} #{1 2 4 6}]
+                    ;; averages:
+                    [#{1 4}]))
 
 (def q1 #{1 2 4})
 (def q2 #{1 2 4 6})
@@ -130,7 +133,8 @@
           (mapcat #(c/combinations queries %)
                   (range 2 (inc threshold)))))
 
-(query-distances 2 queries)
+(comment
+  (query-distances 2 queries))
 
 (defn nearby-existing-queries
   "Return a set of existing queries whose distance to any other query is lower than the threshold.
@@ -155,9 +159,10 @@
                           longest-query))
               (conj sorted-chain longest-query))))))
 
-(= queries (nearby-existing-queries 1 queries))
-(= #{q5} (nearby-existing-queries 7 queries))
-(nearby-existing-queries 2 queries)
+(comment
+  (= queries (nearby-existing-queries 1 queries))
+  (= #{q5} (nearby-existing-queries 7 queries))
+  (nearby-existing-queries 2 queries))
 
 (defn average-synthetic-query
   "Given a set of queries, return some synthetic query with minimal distance to all others under `threshold`."
@@ -185,18 +190,19 @@
             (do (.println System/err "Breaking infinite loop, you could be fired for that.")
                 (first (sort-by count queries)))))))
 
-(= (average-synthetic-query 2 [#{1 2 3}
-                               #{2 3 4}
-                               #{3 4 1}
-                               #{4 1 2}])
-   #{1 2 3 4})
+(comment
+  (= (average-synthetic-query 2 [#{1 2 3}
+                                 #{2 3 4}
+                                 #{3 4 1}
+                                 #{4 1 2}])
+     #{1 2 3 4})
 
-(= (average-synthetic-query 2 [#{2 3 1}
-                               #{2 3 4}
-                               #{2 3 5}])
-   #{2 3})
+  (= (average-synthetic-query 2 [#{2 3 1}
+                                 #{2 3 4}
+                                 #{2 3 5}])
+     #{2 3})
 
-(average-synthetic-query 2 #{#{1 4 2 8} #{1 8} #{1 4 6 2} #{1 4 2}})
+  (average-synthetic-query 2 #{#{1 4 2 8} #{1 8} #{1 4 6 2} #{1 4 2}}))
 
 (defn nearby-synthetic-queries
   "Return a set of existing queries whose distance to any other query is lower than the threshold.
@@ -220,13 +226,14 @@
               (apply disj queries nearby-distances)
               (conj sorted-chain (average-synthetic-query threshold nearby-distances)))))))
 
-(= queries (nearby-synthetic-queries 1 queries))
-(= #{#{2}} (nearby-synthetic-queries 7 queries))
-(nearby-synthetic-queries 2 queries)
+(comment
+  (= queries (nearby-synthetic-queries 1 queries))
+  (= #{#{2}} (nearby-synthetic-queries 7 queries))
+  (nearby-synthetic-queries 2 queries)
 
-(double
-  (/ (reduce + (map count queries))
-     (count queries)))
+  (double
+    (/ (reduce + (map count queries))
+       (count queries))))
 
 (defn query
   [market-size]
@@ -239,4 +246,5 @@
 (def big-queries
   (repeatedly 100 #(query 100)))
 
-(count (nearby-synthetic-queries 10 big-queries))
+(comment
+  (count (nearby-synthetic-queries 10 big-queries)))
